@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<title>Selection Sort Visual Demo</title>
+<head>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+var location_oldx=0;
+var location_oldy=0;
+var location_newx=0;
+var location_newy=0;
+var displayArray = function(array,x,y,data) {
+   var canvas = document.getElementById('Canvas01');
+   var ctx = canvas.getContext('2d');
+   var x1,y1,x2,y2;
+    ctx.fillStyle= "blue";
+    ctx.font = "italic bold 35pt Tahoma";
+    var rows="";
+	for(var i=0; i<array.length;i++)
+    {
+		ctx.fillText(array[i],x,y);
+		if(array[data]===array[i])
+		{
+		  location_oldx=x;
+		  location_oldy=y;
+		}
+		x=x+90;
+    }
+};
+var swap = function(array, firstIndex, secondIndex) {
+    var temp = array[firstIndex];
+    array[firstIndex] = array[secondIndex];
+    array[secondIndex] = temp;
+};
+var indexOfMinimum = function(array, startIndex) {
+    var minValue = array[startIndex];
+    var minIndex = startIndex;
+    for(var i = minIndex + 1; i < array.length; i++) {
+        if(array[i] < minValue) {
+            minIndex = i;
+            minValue = array[i];
+        }
+    } 
+    return minIndex;
+}; 
+var calculate_location=function(array,x,y,data)
+{
+   for(var i=0; i<array.length;i++)
+    {
+        	
+		if(data===array[i])
+		{
+		  location_newx=x;
+		  location_newy=y;
+		}
+		x=x+90;
+    }
+};
+var selectionSort = function(array) {
+  
+   var x=30;
+   var y=80;
+   var canvas = document.getElementById('Canvas01');
+   var ctx = canvas.getContext('2d');
+  for(var i=0;i < (array.length) ;i++)
+  {
+	  var minIndex=indexOfMinimum(array,i);
+      displayArray(array,x,y,minIndex);
+	  y=y+80;
+      swap(array,i,minIndex);
+	  calculate_location(array,x,y,array[i])
+	  console.log(location_oldx,location_oldy,location_newx,location_newy);
+	  if(i!==array.length-1)
+	  {
+	  ctx.beginPath();
+      ctx.moveTo(location_oldx, location_oldy);
+      ctx.lineTo(location_newx+5, location_newy-13);
+	  ctx.lineWidth = 10;
+	  ctx.strokeStyle = '#ff0000';
+      ctx.stroke();
+	  }
+  }
+};
+$(window).ready(function() {
+  var array = [32,33,1,5,-1,0];
+  array = selectionSort(array);
+});
+</script>
+<style>
+table {
+    border-collapse: collapse;
+}
+td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<table id="array_data"></table>
+<canvas id="Canvas01" width="700" height="700" style="border:2px solid #bbb; margin-left:10px; margin-top:50px;"></canvas>
+</body>
+</html>
